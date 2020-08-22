@@ -23,6 +23,9 @@
        li:last-child{
             border-bottom: none;
         }
+        p{
+            float: right;
+        }
     </style>
 </head>
 <body>
@@ -33,7 +36,7 @@
                 <h1>TODOAPP</h1>
             </div>
             <div class="col-12">
-                <input v-model="yeniYapilacak" class="form-control">
+                <input v-model="yeniYapilacak" class="form-control" autofocus>
                 </div>
             </input>
             <div class="col-12">
@@ -58,15 +61,15 @@
                 </div>
             </div>
         </div>
+        <p>there are {{yapilacaklar.length}} items in the list.</p>
     </div>
 
     <script>
 		new Vue({
 		  el: '#app',
 		  data: {
-            mesaj:'',
             yeniYapilacak: '',
-            yapilacaklar: []
+            yapilacaklar: [],
 		  },
           created() {
             axios.get('http://localhost:3000').then(veri =>this.yapilacaklar =veri.data)
