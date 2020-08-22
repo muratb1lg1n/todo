@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue dersleri</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        ul{
+            margin: 0px;
+            padding: 0px;
+        }
+        li{
+            float: left;
+            width: 100%;
+            border-bottom: 1px solid #cccccc;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            list-style-type: none;
+        }
+       li:last-child{
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app" class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1>TODOAPP</h1>
+            </div>
+            <div class="col-12">
+                <input v-model="yeniYapilacak" class="form-control">
+                </div>
+            </input>
+            <div class="col-12">
+                <div class="btn btn-lg btn-block btn-primary mt-2" @click="ekle">Ekle</div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center" v-if="yapilacaklar.length==0">
+                        Yapılacak bir iş yok :)
+                    </div>
+                    <div class="card-body" v-else>
+                        <ul>
+                            <li v-for="(value,index) in yapilacaklar">
+                                {{value}}
+                                <button @click="sil(index)" class="btn btn-danger btn-sm float-right">sil</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+		new Vue({
+		  el: '#app',
+		  data: {
+            mesaj:'',
+            yeniYapilacak: '',
+            yapilacaklar: []
+		  },
+          created() {
+            axios.get('http://localhost:3000').then(veri =>this.yapilacaklar =veri.data)
+
+          },
+          
+          methods:{
+            async ekle(){
+                await this.yapilacaklar.push(this.yeniYapilacak);
+                this.yeniYapilacak = await '';
+            },
+            sil(index){
+                this.yapilacaklar.splice(index,1);
+            }
+          }
+		});
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    
+</body>
+</html>
