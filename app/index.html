@@ -54,7 +54,9 @@
                         <ul>
                             <li v-for="(value,index) in yapilacaklar">
                                 {{value}}
-                                <button @click="sil(index)" class="btn btn-danger btn-sm float-right">sil</button>
+                                <button @click="sil" class="btn btn-danger btn-sm float-right">sil</button>
+                                <button @click="done" class="btn btn-success btn-sm mr-2 float-right">halloldu</button>
+                            
                             </li>
                         </ul>
                     </div>
@@ -62,6 +64,7 @@
             </div>
         </div>
         <p>there are {{yapilacaklar.length}} items in the list.</p>
+        <p>there are {{yapildi.length}} items in the list.</p>
     </div>
 
     <script>
@@ -70,20 +73,23 @@
 		  data: {
             yeniYapilacak: '',
             yapilacaklar: [],
-		  },
-          created() {
-            axios.get('http://localhost:3000').then(veri =>this.yapilacaklar =veri.data)
-
-          },
-          
+            yapildi: [],
+		  },    
           methods:{
             async ekle(){
-                await this.yapilacaklar.push(this.yeniYapilacak);
-                this.yeniYapilacak = await '';
+                if (this.yeniYapilacak) {
+                    await this.yapilacaklar.push(this.yeniYapilacak);
+                    this.yeniYapilacak = await '';
+                }
             },
             sil(index){
                 this.yapilacaklar.splice(index,1);
-            }
+            },
+            done(index){
+            	this.yapildi.push(this.yapilacaklar[index]);
+
+
+            },
           }
 		});
     </script>
